@@ -15,13 +15,24 @@ if test "$(id -u)" -gt "0"; then
     printf "%s[ OK ]%s\n" "${blue}" "${normal}"
   fi
 
-  if test ! -f /etc/cli.home-manager-init; then
-    printf "Initializing nix home-manager...\t\t\t "
-    sudo touch /etc/cli.home-manager-init
-    if ! pgrep -x nix-daemon > /dev/null; then
+  if test ! -f /etc/cli.nix-init; then
+    printf "Initializing nix...\n\n"
+    sudo touch /etc/cli.nix-init
+    if test ! -d /home/nix; then
+      printf "No /home/nix found, creating and bind mounting to /nix...\t\t\t"
+      sudo mkdir -p /home/nix
+      sudo mount --bind /nix /home/nix/
+      printf "%s[ OK ]%s\n" "${blue}" "${normal}\n\n"
+    else
+      printf "/home/nix found, bind mounting to /nix...\t\t\t"
+      sudo mount --bind /home/nix /nix
+      printf "%s[ OK ]%s\n" "${blue}" "${normal}\n\n"
+    fi
+    if ! pgrep -x nix-daemon >/dev/null; then
       sudo rc-service nix-daemon restart
       sudo rc-service nix-daemon status
     fi
+    printf "Running home-manager...\t\t\t"
     cd ~/.config/home-manager/
     nix run . switch
     cd -
