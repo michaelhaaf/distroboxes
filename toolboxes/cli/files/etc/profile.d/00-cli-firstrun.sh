@@ -34,7 +34,7 @@ if test "$(id -u)" -gt "0"; then
     fi
     printf "Running home-manager...\t\t\t"
     cd ~/.config/home-manager/
-    nix run . switch
+    nix run home-manager/master -- switch
     cd -
     printf "%s[ OK ]%s\n" "${blue}" "${normal}"
   fi
