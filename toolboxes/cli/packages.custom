@@ -11,6 +11,7 @@ rclone
 ripgrep
 sed
 starship
+uutils
 zoxide
 gh
 nmap

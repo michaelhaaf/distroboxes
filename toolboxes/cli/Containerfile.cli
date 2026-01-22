@@ -62,7 +62,6 @@ RUN curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/
     --extra-conf "sandbox = false" \
     --init none \
     --no-confirm
-RUN . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 ENV PATH="${PATH}:/nix/var/nix/profiles/default/bin"
 
 # Openrc hack
